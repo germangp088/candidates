@@ -2,52 +2,29 @@
 import express from 'express'
 import { Candidate } from '../models/candidate'
 import { validateGet, validatPost } from '../utils/validator'
-const router = express.Router()
+import { RecruitingService } from '../services/recruiting'
 
-const candidates: Candidate[] = []
+const router = express.Router()
+const recruitingService: RecruitingService = new RecruitingService()
 
 router.post('/candidates', validateGet, (req: express.Request, res: express.Response) => {
-  candidates.push(req.body)
+  recruitingService.addCandidate(req.body)
   res.status(201).end()
 })
 
 router.get('/candidates/search', validatPost, (req: express.Request, res: express.Response) => {
   const skills = req.query.skills
-  if (!skills) {
-    res.status(400).end()
-  } else {
-    const skillSearch = skills.toString().split(',')
-    const findMatchs = (candidate: Candidate) => {
-      let match = 0
-      skillSearch.forEach((skill: string) => {
-        if (candidate.skills.includes(skill)) {
-          match++
-        }
-      })
-      return match
-    }
-    let candidatesMatch = candidates.filter((candidate: Candidate) => findMatchs(candidate) > 0)
-    if (candidatesMatch.length == 0) {
-      res.status(404).send(candidatesMatch)
-    }
+  const skillSearch = skills.toString().split(',')
 
-    candidatesMatch = candidatesMatch.map((candidate: Candidate) => {
-      const skills: string[] = []
-      skillSearch.forEach((skill: string) => {
-        if (candidate.skills.includes(skill)) {
-          skills.push(skill)
-        }
-      })
-      candidate.skills = skills
-      return candidate;
-    })
+  let candidatesMatch = recruitingService.getCandidatesMatch(skillSearch)
 
-    candidatesMatch
-      .sort((a: Candidate, b: Candidate) => a.skills.length - b.skills.length)
-      .reverse()
-
-    res.status(200).send(candidatesMatch[0])
+  if (candidatesMatch.length == 0) {
+    res.status(404).send(candidatesMatch)
   }
+
+  candidatesMatch = recruitingService.removeSkills(candidatesMatch, skillSearch)
+
+  res.status(200).send(recruitingService.getBestMatch(candidatesMatch))
 })
 
 export default router

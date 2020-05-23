@@ -10,6 +10,14 @@ export class Candidate {
         this._name = name
         this._skills = skills
     }
+    
+    public toObject(): {} {
+        return {
+            'id': this.id,
+            'name': this.name,
+            'skills': this.skills
+        };
+    }
 
     get id(): string {
         return this._id;
