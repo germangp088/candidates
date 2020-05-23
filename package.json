@@ -18,8 +18,8 @@
     "express": "^4.17.1",
     "helmet": "^3.22.0",
     "http-errors": "^1.7.3",
-    "uuid": "^8.1.0",
-    "validator": "^13.0.0"
+    "log": "^6.0.0",
+    "uuid": "^8.1.0"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",
@@ -27,6 +27,7 @@
     "@types/helmet": "0.0.47",
     "@types/http-errors": "^1.6.3",
     "@types/uuid": "^8.0.0",
+    "@types/validator": "^13.0.0",
     "@typescript-eslint/eslint-plugin": "^3.0.0",
     "@typescript-eslint/parser": "^3.0.0",
     "concurrently": "^5.2.0",

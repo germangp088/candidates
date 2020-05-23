@@ -1,19 +1,17 @@
 'use strict'
 import express from 'express'
 import { Candidate } from '../models/candidate'
+import { validateGet, validatPost } from '../utils/validator'
 const router = express.Router()
 
 const candidates: Candidate[] = []
 
-router.post('/candidates', function (req, res) {
-  if (!req.body.id || !req.body.name || !req.body.skills) {
-    res.status(400).end()
-  }
+router.post('/candidates', validateGet, (req: express.Request, res: express.Response) => {
   candidates.push(req.body)
   res.status(201).end()
 })
 
-router.get('/candidates/search', function (req: express.Request, res: express.Response) {
+router.get('/candidates/search', validatPost, (req: express.Request, res: express.Response) => {
   const skills = req.query.skills
   if (!skills) {
     res.status(400).end()
