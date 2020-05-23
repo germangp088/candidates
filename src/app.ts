@@ -1,8 +1,8 @@
-const createError = require('http-errors'),
-  express = require('express'),
-  cookieParser = require('cookie-parser'),
-  helmet = require('helmet'),
-  candidatesRouter = require('./routes/candidates')
+import express from 'express'
+import createError from 'http-errors'
+import helmet from 'helmet'
+import cookieParser from 'cookie-parser'
+import candidatesRouter from './routes/candidates'
 
 const app: any = express()
 
@@ -36,4 +36,4 @@ app.use(function (err: any, req: any, res: any) {
   res.render('error')
 })
 
-module.exports = app
+export default app

@@ -1,5 +1,5 @@
 'use strict'
-import express = require('express')
+import express from 'express'
 const router = express.Router()
 
 const candidates: any[] = []
@@ -56,4 +56,4 @@ router.get('/candidates/search', function (req: express.Request, res: express.Re
   }
 })
 
-module.exports = router
+export default router
