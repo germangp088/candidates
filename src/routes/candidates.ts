@@ -1,8 +1,9 @@
 'use strict'
 import express from 'express'
+import { Candidate } from '../models/candidate'
 const router = express.Router()
 
-const candidates: any[] = []
+const candidates: Candidate[] = []
 
 router.post('/candidates', function (req, res) {
   if (!req.body.id || !req.body.name || !req.body.skills) {
@@ -18,7 +19,7 @@ router.get('/candidates/search', function (req: express.Request, res: express.Re
     res.status(400).end()
   } else {
     const skillSearch = skills.toString().split(',')
-    const findMatchs = (candidate: any) => {
+    const findMatchs = (candidate: Candidate) => {
       let match = 0
       skillSearch.forEach((skill: string) => {
         if (candidate.skills.includes(skill)) {
@@ -27,29 +28,24 @@ router.get('/candidates/search', function (req: express.Request, res: express.Re
       })
       return match
     }
-    let candidatesMatch = candidates.filter((candidate: any) => findMatchs(candidate) > 0)
+    let candidatesMatch = candidates.filter((candidate: Candidate) => findMatchs(candidate) > 0)
     if (candidatesMatch.length == 0) {
       res.status(404).send(candidatesMatch)
     }
 
-    candidatesMatch = candidatesMatch.map((candidate: any) => {
+    candidatesMatch = candidatesMatch.map((candidate: Candidate) => {
       const skills: string[] = []
       skillSearch.forEach((skill: string) => {
         if (candidate.skills.includes(skill)) {
           skills.push(skill)
         }
       })
-      return {
-        id: candidate.id,
-        name: candidate.name,
-        skills: skills
-      }
+      candidate.skills = skills
+      return candidate;
     })
 
     candidatesMatch
-      .sort((a: any, b: any) => {
-        return a.skills.length - b.skills.length
-      })
+      .sort((a: Candidate, b: Candidate) => a.skills.length - b.skills.length)
       .reverse()
 
     res.status(200).send(candidatesMatch[0])

@@ -9,7 +9,6 @@ import application from '../app'
 
 const debug = require('debug')('demo:server')
 
-
 /**
  * Get port from environment and store in Express.
  */
@@ -67,11 +66,9 @@ function onError(error: any) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges')
       process.exit(1)
-      break
     case 'EADDRINUSE':
       console.error(bind + ' is already in use')
       process.exit(1)
-      break
     default:
       throw error
   }
