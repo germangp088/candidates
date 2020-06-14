@@ -7,12 +7,12 @@ import { RecruitingService } from '../services/recruiting'
 const router = express.Router()
 const recruitingService: RecruitingService = new RecruitingService()
 
-router.post('/candidates', validateGet, (req: express.Request, res: express.Response) => {
+router.post('/candidates', validatPost, (req: express.Request, res: express.Response) => {
   recruitingService.addCandidate(req.body)
   res.status(201).end()
 })
 
-router.get('/candidates/search', validatPost, (req: express.Request, res: express.Response) => {
+router.get('/candidates/search', validateGet, (req: express.Request, res: express.Response) => {
   const skills = req.query.skills
   const skillSearch = skills.toString().split(',')
 

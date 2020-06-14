@@ -3,7 +3,7 @@ import express from 'express'
 
 const logger = require('log');
 
-export const validateGet = (req: express.Request, res: express.Response, next: any) => {
+export const validatPost = (req: express.Request, res: express.Response, next: any) => {
 	logger.debug('Validate method')
 
 	const { name, skills } = req.body
@@ -17,7 +17,7 @@ export const validateGet = (req: express.Request, res: express.Response, next: a
 	validateErrors(errors, res, next)
 }
 
-export const validatPost = (req: express.Request, res: express.Response, next: any) => {
+export const validateGet = (req: express.Request, res: express.Response, next: any) => {
 	logger.debug('Validate method')
 
 	const { skills } = req.query
